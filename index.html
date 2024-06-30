@@ -1,40 +1,58 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- MindAR library for AR functionalities -->
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
+    <!-- A-Frame library for 3D scene creation -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- MindAR integration with A-Frame -->
     <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
+    <!-- A-Frame extras library for additional functionalities -->
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
   </head>
 
   <body>
+    <!-- A-Frame scene with MindAR image target -->
     <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights">
+      <!-- Assets like images are defined here -->
       <a-assets>
         <img id="btninsta" src="./idcard.jpg.jpeg" crossorigin="anonymous">
         <img id="btnphone" src="./call.jpg" crossorigin="anonymous">
       </a-assets>
+      
+      <!-- Camera settings for A-Frame scene -->
       <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: 10000; objects: .clickable"></a-camera>
 
+      <!-- AR target entity which will appear when the image target is found -->
       <a-entity id="example-target" mindar-image-target="targetIndex: 0">
+        <!-- White box (plane) that is clickable -->
         <a-plane id="info-box" class="clickable" color="#FFFFFF" width="1" height="0.5" position="0 0 0" rotation="0 0 0">
+          <!-- Text displayed on the white box -->
           <a-text value="Click to view ID Card info" color="#000000" align="center" position="0 0 0.1" width="1.5"></a-text>
         </a-plane>
       </a-entity>   
     </a-scene>
 
     <script type="text/javascript">
+      // Select the example target entity
       const exampleTarget = document.querySelector('#example-target');
+
+      // Event listener for when the target is found
       exampleTarget.addEventListener("targetFound", event => {
         console.log("target found");
       });
 
+      // Event listener for when the target is lost
       exampleTarget.addEventListener("targetLost", event => {
         console.log("target lost");
       });
 
+      // Select the info box (white box)
       const infoBox = document.querySelector('#info-box');
+
+      // Event listener for when the info box is clicked
       infoBox.addEventListener("click", event => {
-        alert("ID Card Information:\nName: jayswal isha\nroll no: 16 \nDepartment: computer Engineering\ninstitue: ppi\nen: 2303466160095");
+        alert("ID Card Information:\nName: John Doe\nID: 123456\nDepartment: Engineering");
       });
     </script>
   </body>
